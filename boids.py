@@ -1,6 +1,4 @@
 import pygame
-from pygame_widgets.slider import Slider
-import pygame_widgets
 import random
 import math
 
@@ -9,6 +7,7 @@ import math
 #############
 visualRange = 100
 avoidRange = 100
+avoidFactor = 0.5
 cohesionFactor = 1
 alignmentFactor = 1
 coneSize = math.radians(180)
@@ -161,8 +160,6 @@ def main():
 
     boids = [Boid(screen) for _ in range(100)]
     
-    slider = Slider(screen, 10, 10, 40, 10, colour=(155,155,155),
-                    initial=0.5, handleRadius=3, curved=True, min=0, max=3, step=0.1)
 
     while True:
         events = pygame.event.get()
@@ -170,7 +167,7 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
 
-        avoidFactor=slider.getValue()
+        
         alignment(boids)
         cohesion(boids)
         avoid(boids, avoidFactor)
@@ -180,8 +177,7 @@ def main():
         for boid in boids:
             boid.update()
             boid.draw()
-
-        pygame_widgets.update(events)
+            
         
         pygame.display.flip()
         clock.tick(60)
